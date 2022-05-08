@@ -26,13 +26,17 @@ public class UserService {
     @Autowired
     UserValidation userValidation;
 
+    public User findUserByUsername(String userName) {
+        return userRepo.findByUserName(userName);
+    }
+
     public User findUserByUserId(Long userId) {
         return userRepo.findByUserId(userId);
     }
 
     public User saveUser(User user) {
 
-        if(!userValidation.checkForDuplicateUserName(user.getUserName()))
+        if (!userValidation.checkForDuplicateUserName(user.getUsername()))
             return userRepo.save(user);
         else
             return new User();
@@ -43,18 +47,17 @@ public class UserService {
 
         User user = findUserByUserId(userId);
 
-        if(user == null ) return null;
+        if (user == null) return null;
 
         String[] userAnimeList = user.getAnimeListID().split(",");
 
         log.info(String.valueOf(userAnimeList.length));
 
-        if(userAnimeList.length == 0 ) return null;
+        if (userAnimeList.length == 0) return null;
 
         List<Anime> userAList = new ArrayList<>();
 
-        for(String animeId : userAnimeList)
-        {
+        for (String animeId : userAnimeList) {
             Anime anime = restTemplate.getForObject("http://ANIME-SERVICE/anime/" + animeId, Anime.class);
             userAList.add(anime);
         }
@@ -68,7 +71,7 @@ public class UserService {
         log.info("Received AnimeList + " + animeList.toString());
         User user = findUserByUserId(userId);
         user.setAnimeListID(animeList.getAnimeList());
-        log.info("User Object after update" + user.toString());
+        log.info("User Object after update" + user);
         saveUser(user);
 
     }

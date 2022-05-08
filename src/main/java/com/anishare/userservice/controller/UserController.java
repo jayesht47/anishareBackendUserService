@@ -36,11 +36,11 @@ public class UserController {
             throw new UserNotFoundException(userId);
         }
 
-        log.info("User Details :: "+ userInDb.toString());
+        log.info("User Details :: "+ userInDb);
         return userInDb;
     }
 
-    @PostMapping("/saveUser/")
+    @PostMapping("/saveUser")
     public User saveUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
