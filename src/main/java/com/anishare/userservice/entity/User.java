@@ -1,5 +1,6 @@
 package com.anishare.userservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public class User implements UserDetails {
     private String userName;
 
     @NotEmpty
+    @JsonIgnore
     private String password;
     private String animeListID;
 
