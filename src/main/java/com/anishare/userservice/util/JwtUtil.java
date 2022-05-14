@@ -19,7 +19,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil implements Serializable {
 
-    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60 * 1000;
 
 
     private Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
@@ -38,13 +38,13 @@ public class JwtUtil implements Serializable {
     private boolean isTokenExpired(String token)
     {
         Date expirationDate = getExpirationDateFromToken(token);
-        return new Date().after(expirationDate) && !isTokenExpired(token);
+        return new Date().after(expirationDate) ;
     }
 
     public boolean isTokenValid(String token, UserDetails user)
     {
         String userNameFromToken = getUserNameFromToken(token);
-        return userNameFromToken.equals(user.getUsername());
+        return userNameFromToken.equals(user.getUsername()) && !isTokenExpired(token);
     }
 
     public <T> T extractClaim(String token, Function<Claims,T> claimsResolver){

@@ -19,13 +19,15 @@ import java.util.List;
 @Slf4j
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
+
+
     @GetMapping("/test")
     public String testController(){
         return "Hello from userService";
     }
-
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/user/{userId}")
     public User getUserById(@PathVariable("userId") Long userId) throws UserNotFoundException {
