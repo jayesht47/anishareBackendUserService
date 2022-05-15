@@ -39,7 +39,7 @@ public class UserService {
         if (!userValidation.checkForDuplicateUserName(user.getUsername()))
             return userRepo.save(user);
         else
-            return new User();
+            return null;
 
     }
 
@@ -66,7 +66,7 @@ public class UserService {
 
     }
 
-    public void saveUserList(AnimeListDTO animeList, Long userId) {
+    public void saveUserList(AnimeListDTO animeList, Long userId)  {
 
         log.info("Received AnimeList + " + animeList.toString());
         User user = findUserByUserId(userId);

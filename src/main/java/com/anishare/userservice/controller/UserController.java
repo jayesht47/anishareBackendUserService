@@ -3,6 +3,7 @@ package com.anishare.userservice.controller;
 import com.anishare.userservice.DTO.AnimeListDTO;
 import com.anishare.userservice.VO.Anime;
 import com.anishare.userservice.entity.User;
+import com.anishare.userservice.exceptions.DuplicateUserNameException;
 import com.anishare.userservice.exceptions.UserNotFoundException;
 import com.anishare.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -43,12 +44,12 @@ public class UserController {
     }
 
     @PostMapping("/saveUser")
-    public User saveUser(@RequestBody User user) {
+    public User saveUser(@RequestBody User user) throws DuplicateUserNameException {
         return userService.saveUser(user);
     }
 
     @PostMapping("/saveAnimeList/{userId}")
-    public void saveUserList(@RequestBody AnimeListDTO animeList, @PathVariable("userId") Long userId) {
+    public void saveUserList(@RequestBody AnimeListDTO animeList, @PathVariable("userId") Long userId) throws DuplicateUserNameException {
         userService.saveUserList(animeList, userId);
     }
 
