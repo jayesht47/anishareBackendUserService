@@ -104,19 +104,13 @@ public class AuthController {
             } else {
                 throw new IllegalArgumentException("Null registerUser received");
             }
-        } catch (BadCredentialsException e) {
-            responseMap.put("error", true);
-            responseMap.put("message", "Empty Username or Password");
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
-
         } catch (IllegalArgumentException e) {
             responseMap.put("error", true);
             responseMap.put("message", "Bad Request");
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
-
         }
+        
     }
 
 }
