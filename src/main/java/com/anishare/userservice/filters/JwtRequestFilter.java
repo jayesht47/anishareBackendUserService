@@ -1,7 +1,8 @@
-package com.anishare.userservice.util;
+package com.anishare.userservice.filters;
 
 import com.anishare.userservice.entity.User;
 import com.anishare.userservice.service.UserDetailService;
+import com.anishare.userservice.util.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,5 +1,6 @@
 package com.anishare.userservice.controller;
 
+import com.anishare.userservice.VO.LoginUser;
 import com.anishare.userservice.VO.RegisterUser;
 import com.anishare.userservice.entity.User;
 import com.anishare.userservice.exceptions.DuplicateUserNameException;
@@ -42,14 +43,14 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam("userName") String userName, @RequestParam("password") String password) {
+    public ResponseEntity<?> login(@RequestBody LoginUser loginUser) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, password));
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUserName(), loginUser.getPassword()));
 
             if (authentication.isAuthenticated()) {
                 logger.info("Logged In");
-                User user = userService.findUserByUsername(userName);
+                User user = userService.findUserByUsername(loginUser.getUserName());
                 String token = jwtUtil.generateToken(user);
                 responseMap.put("error", false);
                 responseMap.put("message", "Logged In");
@@ -75,7 +76,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterUser registerUser) throws DuplicateUserNameException{
+    public ResponseEntity<?> register(@RequestBody RegisterUser registerUser) throws DuplicateUserNameException {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             if (registerUser != null) {
@@ -110,7 +111,7 @@ public class AuthController {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
         }
-        
+
     }
 
 }

@@ -29,7 +29,7 @@ public class ControlAdvisor {
     public ResponseEntity<?> duplicateUserNameFoundExceptionHandler(DuplicateUserNameException e)
     {
         Map<String,Object> responseMap = new HashMap<>();
-        responseMap.put("error", false);
+        responseMap.put("error", true);
         responseMap.put("message", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
     }

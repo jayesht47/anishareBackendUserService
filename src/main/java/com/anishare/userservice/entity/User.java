@@ -26,18 +26,26 @@ public class User implements UserDetails {
     @NotEmpty
     private String userName;
 
-    @NotEmpty
-    @JsonIgnore
-    private String password;
     private String animeListID;
 
+    @NotEmpty
+    @JsonIgnore //Ignores field while JSON Serialization
+    private String password;
+
     @NotNull
+    @JsonIgnore
     private boolean accountNonExpired;
+
     @NotNull
+    @JsonIgnore
     private boolean accountNonLocked;
+
     @NotNull
+    @JsonIgnore
     private boolean credentialsNonExpired;
+
     @NotNull
+    @JsonIgnore
     private boolean enabled;
 
 
