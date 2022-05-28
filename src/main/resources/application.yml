@@ -1,5 +1,4 @@
 
-JWT_SECRET: "JayeshSampleTestJWT"
 server:
   port: 9091
 

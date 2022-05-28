@@ -62,15 +62,19 @@ public class AuthController {
                 return ResponseEntity.status(401).body(responseMap);
             }
         } catch (DisabledException e) {
-            e.printStackTrace();
             responseMap.put("error", true);
             responseMap.put("message", "User is Disabled");
             logger.error("User is Disabled");
             return ResponseEntity.status(500).body(responseMap);
+        } catch (BadCredentialsException e) {
+            responseMap.put("error", true);
+            responseMap.put("message", "Invalid Login credentials");
+            logger.error("Invalid Login credentials");
+            return ResponseEntity.status(401).body(responseMap);
         } catch (Exception e) {
             responseMap.put("error", true);
-            responseMap.put("message", "User is Disabled");
-            logger.error("User is Disabled");
+            responseMap.put("message", "Internal Application Error occurred");
+            logger.error("Internal Error occurred");
             return ResponseEntity.status(500).body(responseMap);
         }
     }
@@ -108,7 +112,6 @@ public class AuthController {
         } catch (IllegalArgumentException e) {
             responseMap.put("error", true);
             responseMap.put("message", "Bad Request");
-            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseMap);
         }
 

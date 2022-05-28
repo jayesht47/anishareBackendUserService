@@ -7,6 +7,7 @@ import com.anishare.userservice.repository.UserRepo;
 import com.anishare.userservice.validation.UserValidation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -26,12 +27,29 @@ public class UserService {
     @Autowired
     UserValidation userValidation;
 
+    public UserService() {
+    }
+
     public User findUserByUsername(String userName) {
-        return userRepo.findByUserName(userName);
+
+        User user = userRepo.findByUserName(userName);
+
+        if (user != null) {
+            return user;
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
+
     }
 
     public User findUserByUserId(Long userId) {
-        return userRepo.findByUserId(userId);
+        User user = userRepo.findByUserId(userId);
+
+        if (user != null) {
+            return user;
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 
     public User saveUser(User user) {
@@ -66,7 +84,7 @@ public class UserService {
 
     }
 
-    public void saveUserList(AnimeListDTO animeList, Long userId)  {
+    public void saveUserList(AnimeListDTO animeList, Long userId) {
 
         log.info("Received AnimeList + " + animeList.toString());
         User user = findUserByUserId(userId);

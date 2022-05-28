@@ -4,15 +4,12 @@ import com.anishare.userservice.DTO.AnimeListDTO;
 import com.anishare.userservice.VO.Anime;
 import com.anishare.userservice.entity.User;
 import com.anishare.userservice.exceptions.DuplicateUserNameException;
-import com.anishare.userservice.exceptions.UserNotFoundException;
 import com.anishare.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -31,12 +28,12 @@ public class UserController {
     }
 
     @GetMapping("/user/{userId}")
-    public User getUserById(@PathVariable("userId") Long userId) throws UserNotFoundException {
+    public User getUserById(@PathVariable("userId") Long userId) throws UsernameNotFoundException {
         User userInDb =  userService.findUserByUserId(userId);
 
         if(userInDb == null)
         {
-            throw new UserNotFoundException(userId);
+            throw new UsernameNotFoundException(userId.toString());
         }
 
         log.info("User Details :: "+ userInDb);
@@ -44,12 +41,12 @@ public class UserController {
     }
 
     @PostMapping("/saveUser")
-    public User saveUser(@RequestBody User user) throws DuplicateUserNameException {
+    public User saveUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
     @PostMapping("/saveAnimeList/{userId}")
-    public void saveUserList(@RequestBody AnimeListDTO animeList, @PathVariable("userId") Long userId) throws DuplicateUserNameException {
+    public void saveUserList(@RequestBody AnimeListDTO animeList, @PathVariable("userId") Long userId) {
         userService.saveUserList(animeList, userId);
     }
 
